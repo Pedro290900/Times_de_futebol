@@ -1,26 +1,98 @@
 <!DOCTYPE html>
-	<html>
-		<head>
-			<title>Qual é seu time?</title>
-			<script src="futebol.js"></script>
-			<meta charset="UTF-8">
-		</head>
-		<body>
-		<div>Qual é seu time?</div>
-		
-		<ul>
-			<li>Fluminense é o atual campeão da Libertadores</li>
-			<li>Flamengo é o maior campeão da Libertadores entre os cariocas</li>
-			<li> Vasco ganhou em 1998 a sua  última e única Libertdores</li>
-			<li>Botafogo briga em 2024 pelo título inédito da Libertadores</li>
-			</ul>
-			<select>
-		<option>Fluminense</option>
-			<option>Flamengo</option>
-			<option>Vasco</option>
-			<option>Botafogo</option>
-		</select>
-		
-		<button>Melhor</button>
-	</body>
-	</html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Qual é seu time?</title>
+  <script src="futebol.js" defer></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #222;
+      margin: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      color: #004080;
+    }
+
+    ul {
+      text-align: left;
+      max-width: 500px;
+      margin: 0 auto 20px;
+      padding: 10px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    li {
+      margin: 8px 0;
+    }
+
+    select, button {
+      margin-top: 15px;
+      padding: 8px 12px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: #004080;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #0066cc;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <h1>Qual é seu time?</h1>
+  
+  <ul>
+    <li><strong>Fluminense:</strong> atual campeão da Libertadores (2023).</li>
+    <li><strong>Flamengo:</strong> maior campeão da Libertadores entre os cariocas.</li>
+    <li><strong>Vasco:</strong> campeão da Libertadores em 1998.</li>
+    <li><strong>Botafogo:</strong> em 2024 brigou pelo título inédito da Libertadores.</li>
+  </ul>
+  
+  <label for="time">Escolha seu time favorito:</label><br>
+  <select id="time">
+    <option value="">-- Selecione --</option>
+    <option value="Fluminense">Fluminense</option>
+    <option value="Flamengo">Flamengo</option>
+    <option value="Vasco">Vasco</option>
+    <option value="Botafogo">Botafogo</option>
+  </select>
+  
+  <br>
+  <button onclick="melhorTime()">Confirmar</button>
+
+  <div id="resultado"></div>
+
+  <script>
+    function melhorTime() {
+      const time = document.getElementById("time").value;
+      const resultado = document.getElementById("resultado");
+
+      if (time === "") {
+        resultado.textContent = "⚠️ Por favor, selecione um time.";
+      } else {
+        resultado.textContent = `Você escolheu: ${time}! 🏆`;
+      }
+    }
+  </script>
+</body>
+</html>
