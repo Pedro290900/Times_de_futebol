@@ -3,95 +3,249 @@
 <head>
   <meta charset="UTF-8">
   <title>Qual é seu time?</title>
-  <script src="futebol.js" defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(120deg, #e2eafc 0%, #b6ccfe 100%);
       color: #222;
-      margin: 20px;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+      padding: 32px 24px;
+      margin-top: 40px;
+      max-width: 480px;
+      width: 100%;
       text-align: center;
+      animation: fadeIn 0.8s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(40px);}
+      to { opacity: 1; transform: translateY(0);}
     }
 
     h1 {
       color: #004080;
+      font-size: 2.2em;
+      margin-bottom: 16px;
+      letter-spacing: 1px;
     }
 
     ul {
       text-align: left;
-      max-width: 500px;
       margin: 0 auto 20px;
-      padding: 10px;
-      background: #fff;
+      padding: 12px;
+      background: #f4f7ff;
       border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      font-size: 1.06em;
     }
 
     li {
-      margin: 8px 0;
+      margin: 12px 0;
+    }
+
+    .escudo {
+      width: 48px;
+      height: 48px;
+      vertical-align: middle;
+      margin-right: 10px;
+      border-radius: 50%;
+      border: 2px solid #eee;
+      background: #fff;
+      object-fit: contain;
+    }
+
+    label {
+      font-weight: 500;
+      font-size: 1.1em;
+      margin-top: 18px;
+      display: block;
     }
 
     select, button {
-      margin-top: 15px;
-      padding: 8px 12px;
+      margin-top: 12px;
+      padding: 9px 14px;
       font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
+      border-radius: 8px;
+      border: 1px solid #b6ccfe;
+      outline: none;
     }
 
     button {
-      background: #004080;
+      background: linear-gradient(90deg, #004080 60%, #0076ff 100%);
       color: white;
       cursor: pointer;
-      transition: 0.3s;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: background 0.3s, transform 0.2s;
+      margin-top: 18px;
     }
 
     button:hover {
-      background: #0066cc;
+      background: linear-gradient(90deg, #0076ff 60%, #004080 100%);
+      transform: scale(1.05);
     }
 
     #resultado {
-      margin-top: 20px;
+      margin-top: 24px;
       font-weight: bold;
-      font-size: 18px;
-      color: #333;
+      font-size: 1.25em;
+      color: #004080;
+      min-height: 40px;
+      transition: color 0.2s;
+    }
+
+    .ranking {
+      margin: 30px 0 10px 0;
+      background: #e6f0ff;
+      border-radius: 10px;
+      padding: 16px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+      width: 100%;
+      max-width: 420px;
+      text-align: left;
+    }
+    .ranking h2 { color: #004080; font-size: 1.2em; margin-bottom: 10px; }
+    .ranking-list { padding-left: 18px; }
+
+    .api-data {
+      margin-top: 30px;
+      background: #fff8e1;
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.09);
+      width: 100%;
+      max-width: 420px;
+      text-align: left;
+      font-size: 0.97em;
+    }
+    .api-data h2 { color: #b66d0d; font-size: 1.1em; margin-bottom: 8px; }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 18px 6px;
+        margin-top: 18px;
+      }
+      h1 {
+        font-size: 1.3em;
+      }
+      ul {
+        font-size: 0.98em;
+      }
+      .escudo {
+        width: 36px;
+        height: 36px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>Qual é seu time?</h1>
-  
-  <ul>
-    <li><strong>Fluminense:</strong> atual campeão da Libertadores (2023).</li>
-    <li><strong>Flamengo:</strong> maior campeão da Libertadores entre os cariocas.</li>
-    <li><strong>Vasco:</strong> campeão da Libertadores em 1998.</li>
-    <li><strong>Botafogo:</strong> em 2024 brigou pelo título inédito da Libertadores.</li>
-  </ul>
-  
-  <label for="time">Escolha seu time favorito:</label><br>
-  <select id="time">
-    <option value="">-- Selecione --</option>
-    <option value="Fluminense">Fluminense</option>
-    <option value="Flamengo">Flamengo</option>
-    <option value="Vasco">Vasco</option>
-    <option value="Botafogo">Botafogo</option>
-  </select>
-  
-  <br>
-  <button onclick="melhorTime()">Confirmar</button>
+  <div class="container">
+    <h1>Qual é seu time?</h1>
+    
+    <ul>
+      <li>
+        <img src="https://upload.wikimedia.org/wikipedia/pt/thumb/f/fc/Fluminense_FC_escudo.png/120px-Fluminense_FC_escudo.png" alt="Fluminense" class="escudo">
+        <strong>Fluminense:</strong> atual campeão da Libertadores (2023).
+      </li>
+      <li>
+        <img src="https://upload.wikimedia.org/wikipedia/pt/thumb/6/6e/Flamengo_braz_logo.svg/120px-Flamengo_braz_logo.svg.png" alt="Flamengo" class="escudo">
+        <strong>Flamengo:</strong> maior campeão da Libertadores entre os cariocas.
+      </li>
+      <li>
+        <img src="https://upload.wikimedia.org/wikipedia/pt/thumb/3/35/Vasco_da_Gama_logo.svg/120px-Vasco_da_Gama_logo.svg.png" alt="Vasco" class="escudo">
+        <strong>Vasco:</strong> campeão da Libertadores em 1998.
+      </li>
+      <li>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Escudo_Botafogo.png/120px-Escudo_Botafogo.png" alt="Botafogo" class="escudo">
+        <strong>Botafogo:</strong> em 2024 brigou pelo título inédito da Libertadores.
+      </li>
+    </ul>
+    
+    <!-- Ranking dos times -->
+    <div class="ranking">
+      <h2>Ranking de Títulos Libertadores (Exemplo)</h2>
+      <ol class="ranking-list">
+        <li>Flamengo - 3 títulos</li>
+        <li>Fluminense - 1 título</li>
+        <li>Vasco - 1 título</li>
+        <li>Botafogo - 0 títulos</li>
+      </ol>
+    </div>
 
-  <div id="resultado"></div>
+    <!-- Seleção do time -->
+    <label for="time">Escolha seu time favorito:</label>
+    <select id="time">
+      <option value="">-- Selecione --</option>
+      <option value="Fluminense">Fluminense</option>
+      <option value="Flamengo">Flamengo</option>
+      <option value="Vasco">Vasco</option>
+      <option value="Botafogo">Botafogo</option>
+    </select>
+    <button onclick="melhorTime()">Confirmar</button>
+    <div id="resultado"></div>
+
+    <!-- Integração externa para exibir dados reais -->
+    <div class="api-data" id="apiData">
+      <h2>Estatísticas dos Times (Exemplo API)</h2>
+      <button onclick="buscarEstatisticas()">Ver estatísticas reais</button>
+      <div id="estatisticas"></div>
+    </div>
+  </div>
 
   <script>
     function melhorTime() {
       const time = document.getElementById("time").value;
       const resultado = document.getElementById("resultado");
+      let msg = "";
 
-      if (time === "") {
-        resultado.textContent = "⚠️ Por favor, selecione um time.";
-      } else {
-        resultado.textContent = `Você escolheu: ${time}! 🏆`;
+      switch (time) {
+        case "":
+          msg = "⚠️ Por favor, selecione um time.";
+          break;
+        case "Fluminense":
+          msg = "Você escolheu Fluminense! Campeão da Libertadores 2023! 🇭🇺🏆";
+          break;
+        case "Flamengo":
+          msg = "Você escolheu Flamengo! Rubro-Negro, multicampeão continental! 🟥⬛🏆";
+          break;
+        case "Vasco":
+          msg = "Você escolheu Vasco! O Gigante da Colina, campeão de 1998! ⚓🏆";
+          break;
+        case "Botafogo":
+          msg = "Você escolheu Botafogo! O Glorioso, tradição e raça! ⭐⚽";
+          break;
+        default:
+          msg = `Você escolheu: ${time}! 🏆`;
       }
+      resultado.textContent = msg;
+    }
+
+    // Exemplo de integração com API pública (Mock)
+    function buscarEstatisticas() {
+      const estatisticasDiv = document.getElementById("estatisticas");
+      estatisticasDiv.textContent = "Carregando estatísticas...";
+      // Exemplo de requisição (substitua por API real)
+      setTimeout(() => {
+        estatisticasDiv.innerHTML = `
+          <strong>Fluminense</strong>: 1 título, 2 finais<br>
+          <strong>Flamengo</strong>: 3 títulos, 5 finais<br>
+          <strong>Vasco</strong>: 1 título, 1 final<br>
+          <strong>Botafogo</strong>: 0 títulos, 1 final<br>
+          <em>(Dados simulados - substitua por dados reais de uma API pública)</em>
+        `;
+      }, 1200);
     }
   </script>
 </body>
